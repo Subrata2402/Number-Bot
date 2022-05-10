@@ -56,7 +56,7 @@ class MainClass(commands.Cog):
             )
     
 intents = discord.Intents.all()
-client = commands.Bot(command_prefix = "-", strip_after_prefix = True, case_insensitive = True, intents = intents)
+client = commands.Bot(command_prefix = ">", strip_after_prefix = True, case_insensitive = True, intents = intents)
 client.remove_command("help")
 client.add_cog(MainClass(client))
 
