@@ -20,12 +20,17 @@ class UserDetails(commands.Cog):
         try:
             message = await self.client.wait_for("message", timeout = 300.0)
         except:
-            return await ctx.send(ctx.author.mention + ", You failed to send your order ID or Transaction ID within time. Don't worry if already paid the amount then start this session again and send your ID.")
+            return await ctx.send(ctx.author.mention + ", You failed to send your order ID within time. Don't worry if already paid the amount then start this session again and send your ID.")
         try:
             id = int(message)
         except:
-            return await ctx.send(ctx.author.mention + ", Invalid Order ID or Transaction ID!")
+            return await ctx.send(ctx.author.mention + ", Invalid Order ID!")
             
         channel = self.client.get_channel(channel_id)
         embed = discord.Embed(title = "Payment Information !",
-            
+            description = f"```\n" \
+                f"Username : {ctx.author}\n" \
+                f"User ID : {ctx.author.id}\n" \
+                f"Points Amount : {points}\n" \
+                f"Order ID : {id}\n```",
+        await channel.send(embed = embed)
