@@ -37,6 +37,7 @@ class UserDetails(commands.Cog):
         self_update = {"points": self_points - amount}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": self_update})
         await ctx.send(ctx.author.mention + ", You gave **{}** points to {}!".format(amount, member.mention))
+        await self.client.get_channel(973657660564062319).send(f"{ctx.author} gave **{amount}** points to {member}!")
         
     @commands.command()
     @commands.is_owner()
@@ -52,6 +53,7 @@ class UserDetails(commands.Cog):
             user_update = {"points": user_points + amount}
             db.user.update_one({"user_id": member.id}, {"$set": user_update})
         await ctx.send(ctx.author.mention + ",  You added **{}** points to {}!".format(amount, member.mention))
+        await self.client.get_channel(973657660564062319).send(f"{ctx.author} added **{amount}** points to {member}!")
         
 def setup(client):
     client.add_cog(UserDetails(client))
