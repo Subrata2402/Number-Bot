@@ -23,7 +23,7 @@ class Payment(commands.Cog):
         except:
             return await ctx.author.send(ctx.author.mention + ", You failed to send your order ID within time. Don't worry if already paid the amount then start this session again and send your ID.")
         try:
-            id = int(message)
+            id = int(message.strip())
         except:
             return await ctx.author.send(ctx.author.mention + ", Invalid Order ID!")
             
