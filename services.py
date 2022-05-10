@@ -1,4 +1,4 @@
-services = {
+service_list = {
     "swagbucks": 10,
     "coindcx": 15,
     "discord": 12,
