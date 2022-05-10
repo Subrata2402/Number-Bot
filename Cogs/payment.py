@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from database import db
 
-class UserDetails(commands.Cog):
+class Payment(commands.Cog):
     
     def __init__(self, client):
         self.client = client
@@ -34,3 +34,6 @@ class UserDetails(commands.Cog):
                 f"Points Amount : {points}\n" \
                 f"Order ID : {id}\n```",
         await channel.send(embed = embed)
+        
+def setup(client):
+    client.add_cog(Payment(client))
