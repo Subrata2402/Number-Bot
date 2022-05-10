@@ -27,7 +27,7 @@ class Number(commands.Cog, NumberApi):
         if not service: return await ctx.send(ctx.author.mention + ", Please provide a service name to request a number.")
         price = services.service_list.get(service.lower())
         if not price:
-            return await ctx.send(ctx.author.mention + f", Invalid service name. Please use `{ctx.prefix}price` to get a list of price of service.")
+            return await ctx.send(ctx.author.mention + f", Invalid service name. Please use `{ctx.prefix}price` to get a list of services and their prices.")
         self_details = db.user.find_one({"user_id": ctx.author.id})
         if not self_details: return await ctx.send(ctx.author.mention + ", You don't have enough points to buy numb.")
         points = self_details.get("points")
