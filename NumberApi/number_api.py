@@ -1,4 +1,4 @@
-import aiohttp, asyncio
+import aiohttp, asyncio, json
 
 class NumberApi(object):
     def __init__(self):
@@ -8,8 +8,8 @@ class NumberApi(object):
     async def fetch(self, method = "GET", function = "", headers = None, data = None):
         async with aiohttp.ClientSession() as session:
             response = await session.request(method = method, url = self.host + function, headers = headers, data = data)
-            content = await response.json()
-            return content
+            content = await response.text()
+            return json.loads(content)
 
     async def get_number(self, service):
         return await self.fetch("GET", "?act=getnumber&service={}&accessCode={}".format(service, self.access_code))
