@@ -26,7 +26,7 @@ class Payment(commands.Cog):
             id = int(message.content.strip())
         except:
             return await ctx.author.send(ctx.author.mention + ", Invalid Order ID!")
-            
+        await ctx.author.send(ctx.author.send + ", Thanks for using our bot. Your points will be added within 2 hours.")
         channel = self.client.get_channel(973640257612431401)
         embed = discord.Embed(title = "Payment Information !",
             description = f"```\n" \
