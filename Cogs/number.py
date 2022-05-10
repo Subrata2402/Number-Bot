@@ -40,7 +40,7 @@ class Number(commands.Cog, NumberApi):
         number = response.get("number")
         activation_id = response.get("activation_id")
         balance = response.get("balance")
-        embed = discord.Embed(title = "Number for {}".format(service.title()), color = discord.Colour.random(),
+        embed = discord.Embed(title = "Number for {}".format(service.title()), color = discord.Colour.random())
         embed.add_field(name = "Number", value = number, inline = False)
         embed.add_field(name = "Activation ID", value = activation_id, inline = False)
         embed.set_thumbnail(url = self.client.user.avatar_url)
