@@ -17,7 +17,6 @@ class Number(commands.Cog, NumberApi):
             description += "• {} - ₹{}".format(key, value)
         embed.description = "```\n{}\n```".format(description)
         await ctx.send(embed = embed)
-        
 
     @commands.command()
     async def getnumber(self, ctx, service: str = None):
@@ -47,6 +46,16 @@ class Number(commands.Cog, NumberApi):
         embed = discord.Embed(title = "Number Buyer Information !", color = discord.Colour.random())
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : {balance}\n"
         await self.client.get_channel(973630743861415986).send(embed = embed)
+        
+    @commands.command(aliases = ["getcode"])
+    async def getsms(self, ctx, activation_id: int = None):
+        if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
+        response = await self.get_sms(activation_id)
+        error = response.get("error")
+        if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
+        sms = response.get("sms")
+        balance = response.get("balance")
+        await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
         
 def setup(client):
     client.add_cog(Number(client))
