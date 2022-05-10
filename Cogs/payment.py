@@ -31,8 +31,8 @@ class Payment(commands.Cog):
         embed = discord.Embed(title = "Payment Information !",
             description = f"```\n" \
                 f"Username : {ctx.author}\n" \
-                f"User ID : {ctx.author.id}\n" \
-                f"Points Amount : {points}\n" \
+                f"User ID  : {ctx.author.id}\n" \
+                f"Amount   : {points}\n" \
                 f"Order ID : {id}\n```",
             color = discord.Colour.random())
         await channel.send(embed = embed)
