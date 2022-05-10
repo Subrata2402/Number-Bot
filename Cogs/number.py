@@ -8,6 +8,7 @@ class Number(commands.Cog, NumberApi):
     def __init__(self, client):
         super().__init__()
         self.client = client
+        self.data = {}
 
     @commands.command(aliases = ["prices"])
     async def price(self, ctx):
@@ -43,6 +44,8 @@ class Number(commands.Cog, NumberApi):
         embed.set_thumbnail(url = self.client.user.avatar_url)
         embed.set_footer(text = "Requested by : {}".format(ctx.author), icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
+        self.data[activation_id] = False
+        self.data["price"] = price
         embed = discord.Embed(title = "Number Buyer Information !", color = discord.Colour.random())
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : {balance}\n"
         await self.client.get_channel(973630743861415986).send(embed = embed)
@@ -55,7 +58,15 @@ class Number(commands.Cog, NumberApi):
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
         sms = response.get("sms")
         balance = response.get("balance")
+        check = data.get("activation_id")
+        if not check:
+            price = data.get("price")
+            points = db.user.find_one({"user_id": ctx.author.id}).get("points")
+            update = {"points": points - price}
+            db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
+            self.data["activation_id"] = True
         await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
+            
         
 def setup(client):
     client.add_cog(Number(client))
