@@ -16,7 +16,7 @@ class Number(commands.Cog, NumberApi):
         description = ""
         embed = discord.Embed(title = "Price list of Services !", color = discord.Colour.random())
         for key, value in services.service_list.items():
-            description += "• {} - ₹{}\n".format(key, value)
+            description += "• {} - ₹{}\n".format(key.title(), value)
         embed.description = "```\n{}\n```".format(description)
         await ctx.send(embed = embed)
 
