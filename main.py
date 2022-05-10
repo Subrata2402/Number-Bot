@@ -75,3 +75,5 @@ if __name__ == "__main__":
         print("Loaded Failed :", failed_ext)
     else:
         print("Extensions Loaded Successful!")
+        
+client.run(os.getenv("BOT_TOKEN"))
