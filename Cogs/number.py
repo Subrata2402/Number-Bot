@@ -72,10 +72,24 @@ class Number(commands.Cog, NumberApi):
     async def cancel(self, ctx, activation_id: int = None):
         if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
         if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
-        response = await self.cancel(activation_id)
+        response = await self.cancel_order(activation_id)
         error = response.get("error")
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
-        sms = response.get("sms")
+        message = response.get("msg")
+        await ctx.send(ctx.author.mention + ", " + message)
+        
+    @commands.command()
+    async def history(self, ctx, activation_id: int = None):
+        if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
+        if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
+        response = await self.get_message_history(activation_id)
+        error = response.get("error")
+        if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
+        total_message = response.get("count")
+        messages = response.get("sms")
+        description = ""
+        for message in messages:
+            description += message + "\n\n"
         
 def setup(client):
     client.add_cog(Number(client))
