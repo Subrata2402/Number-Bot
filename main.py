@@ -14,8 +14,46 @@ class MainClass(commands.Cog):
         await self.client.change_presence(activity=game)
         
     @commands.command()
-    async
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def help(self, ctx):
+        embed = discord.Embed(color = discord.Colour.random())
+        embed.add_field(name = f"{ctx.prefix}help", value = "Shows this message.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}setup [mimir/display] [channel]", value = "Setup channel for Mimir/Display.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}price (amount)", value = "Shows current price of mimir token.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}nextquiz (number)", value = "Shows upcoming mimir quiz details.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}addtoken [token]", value = "Add/Update mimir authorization token.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}login [username] [password]", value = "Login to Display for start websocket. Before login please read the note carefully.\n\n**__Note :__** Please don't use username and password of main account for the chances of account ban. If account will get ban then we are not responsible for this.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}getvideo", value = "Get a video where you can find how to get authorization token of mimir.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}start [mimir/display]", value = "Start Websocket of Mimir/Display. Before start the display websocket please read the note carefully.\n\n**__Note :__** For Display Trivia, turn on the websocket 30 seconds before the question arrives or when the question comes up. If started before long time the question coming, close it and start again.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}close [mimir/display]", value = "Close Websocket of Mimir/Display.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}invite", value = "Get bot invite link.", inline = False)
+        embed.set_thumbnail(url = self.client.user.avatar_url)
+        embed.set_author(name = f"| {self.client.user.name} Help Commands !", icon_url = self.client.user.avatar_url)
+        embed.set_footer(text = f"Requested by : {ctx.author}", icon_url = ctx.author.avatar_url)
+        await ctx.send(embed = embed)
     
+    @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def invite(self, ctx):
+        """Get an invite link of bot."""
+        embed = discord.Embed(title = "Invite me to your server.",
+            url = f"https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot",
+            color = discord.Colour.random())
+        await ctx.reply(content = ctx.author.mention, embed = embed)
+    
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        if hasattr(ctx.command, "on_error"): return
+        error = getattr(error, "original", error)
+        if isinstance(error, commands.CommandOnCooldown):
+            seconds = float("{:.2f}".format(error.retry_after))
+            wait_time = f"```{'0' if seconds < 10 else ''}{seconds} second{'s' if seconds != 1 else ''}```"
+            description = ctx.author.mention + ", This command is on cooldown, please retry after " + wait_time + "!"
+            return await ctx.reply(description)
+        print(f"Ignoring exception in command {ctx.command}: Cog Name : {ctx.command.cog_name}", file=sys.stderr)
+        traceback.print_exception(
+            type(error), error, error.__traceback__, file=sys.stderr
+            )
     
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = "-", strip_after_prefix = True, case_insensitive = True, intents = intents)
@@ -23,7 +61,6 @@ client.remove_command("help")
 client.add_cog(MainClass(client))
 
 extensions = ["payment", "number", "user"]
-
 
 if __name__ == "__main__":
     failed_ext = ""
