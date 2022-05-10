@@ -21,6 +21,7 @@ class Number(commands.Cog, NumberApi):
 
     @commands.command()
     async def getnumber(self, ctx, service: str = None):
+        if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!"
         if not service: return await ctx.send(ctx.author.mention + ", Please provide a service name to request a number.")
         price = services.service_list.get(service.lower())
         if not price:
@@ -29,8 +30,11 @@ class Number(commands.Cog, NumberApi):
         if not self_details: return await ctx.send(ctx.author.mention + ", You don't have enough points to buy numb.")
         points = self_details.get("points")
         if points < price: return await ctx.send(ctx.author.mention + ", You don't have enough points to buy number.")
-        await self.get_number(service.lower())
-        
+        response = await self.get_number(service.lower())
+        error = response.get("error")
+        if error:
+            await ctx.send("Something went wrong please try again after some times.")
+            return await self.client.get(973629964056399882).send(error)
         
 def setup(client):
     client.add_cog(Number(client))
