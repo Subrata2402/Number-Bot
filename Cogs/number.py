@@ -9,10 +9,16 @@ class Number(commands.Cog, NumberApi):
         super().__init__()
         self.client = client
 
+    @commands.command(aliases = ["prices"])
+    async def price(self, ctx):
+        embed = discord.Embed(title = "Price list of Services !", color = discord.Colour.random())
+        
+        
+
     @commands.command()
-    async def get(self, service: str = None):
+    async def get(self, ctx, service: str = None):
         if not service: return await ctx.send("Please provide a service name to request a number.")
-        price = services.get(service.lower())
+        price = services.service_list.get(service.lower())
         if not price:
             return await ctx.send(f"Invalid service name. Please use `{ctx.prefix}price` to get a list of price of service.")
         
