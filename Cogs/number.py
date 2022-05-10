@@ -16,3 +16,7 @@ class Number(commands.Cog, NumberApi):
         if not price:
             return await ctx.send(f"Invalid service name. Please use `{ctx.prefix}price` to get a list of price of service.")
         
+        
+        
+def setup(client):
+    client.add_cog(Number(client))
