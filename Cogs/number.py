@@ -89,7 +89,9 @@ class Number(commands.Cog, NumberApi):
         messages = response.get("sms")
         description = ""
         for message in messages:
-            description += message + "\n\n"
+            description += str(message) + "\n\n"
+        embed = discord.Embed(title = "History of Messages !", description = description, color = discord.Colour.random())
+        await ctx.send(embed = embed)
         
 def setup(client):
     client.add_cog(Number(client))
