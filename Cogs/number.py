@@ -21,7 +21,7 @@ class Number(commands.Cog, NumberApi):
 
     @commands.command()
     async def getnumber(self, ctx, service: str = None):
-        if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!"
+        if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
         if not service: return await ctx.send(ctx.author.mention + ", Please provide a service name to request a number.")
         price = services.service_list.get(service.lower())
         if not price:
@@ -52,6 +52,7 @@ class Number(commands.Cog, NumberApi):
         
     @commands.command(aliases = ["getcode"])
     async def getsms(self, ctx, activation_id: int = None):
+        if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
         if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
         response = await self.get_sms(activation_id)
         error = response.get("error")
@@ -67,6 +68,14 @@ class Number(commands.Cog, NumberApi):
             self.data["activation_id"] = True
         await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
             
+    @commands.command()
+    async def cancel(self, ctx, activation_id: int = None):
+        if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
+        if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
+        response = await self.cancel(activation_id)
+        error = response.get("error")
+        if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
+        sms = response.get("sms")
         
 def setup(client):
     client.add_cog(Number(client))
