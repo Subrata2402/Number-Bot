@@ -38,5 +38,20 @@ class UserDetails(commands.Cog):
         db.user.update_one({"user_id": ctx.author.id}, {"$set": self_update})
         await ctx.send(ctx.author.mention + ", You gave **{}** points to {}!".format(amount, member.mention))
         
+    @commands.command()
+    @commands.is_owner()
+    async def add(self, ctx, amount: int = None, member: discord.Member = None):
+        if not amount: return await ctx.send(ctx.author.mention + ", Please mention the amount to add points.")
+        if not member: return await ctx.send(ctx.author.mention + ", Please mention someone to add points.")
+        if member.bot: return await ctx.send(ctx.author.mention + ", You can't add points to a bot user.")
+        user_details = db.user.find_one({"user_id": member.id})
+        if not user_details:
+            db.user.insert_one({"user_id": member.id, "points": amount})
+        else:
+            user_points = user_details.get("points")
+            user_update = {"points": user_points + amount}
+            db.user.update_one({"user_id": member.id}, {"$set": user_update})
+        await ctx.send(ctx.author.mention + ",  You added **{}** points to {}!".format(amount, member.mention))
+        
 def setup(client):
     client.add_cog(UserDetails(client))
