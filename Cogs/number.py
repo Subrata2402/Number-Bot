@@ -11,8 +11,12 @@ class Number(commands.Cog, NumberApi):
 
     @commands.command(aliases = ["prices"])
     async def price(self, ctx):
+        description = ""
         embed = discord.Embed(title = "Price list of Services !", color = discord.Colour.random())
-        
+        for key, value in services.service_list:
+            description += "• {} - ₹{}".format(key, value)
+        embed.description = "```\n{}\n```".format(description)
+        await ctx.send(embed = embed)
         
 
     @commands.command()
