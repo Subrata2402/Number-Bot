@@ -34,7 +34,19 @@ class Number(commands.Cog, NumberApi):
         error = response.get("error")
         if error:
             await ctx.send("Something went wrong please try again after some times.")
-            return await self.client.get(973629964056399882).send(error)
+            return await self.client.get_channel(973629964056399882).send(error)
+        number = response.get("number")
+        activation_id = response.get("activation_id")
+        balance = response.get("balance")
+        embed = discord.Embed(title = "Number for {}".format(service.title()), color = discord.Colour.random(),
+        embed.add_field(name = "Number", value = number, inline = False)
+        embed.add_field(name = "Activation ID", value = activation_id, inline = False)
+        embed.set_thumbnail(url = self.client.user.avatar_url)
+        embed.set_footer(text = "Requested by : {}".format(ctx.author), icon_url = ctx.author.avatar_url)
+        await ctx.send(embed = embed)
+        embed = discord.Embed(title = "Number Buyer Information !", color = discord.Colour.random())
+        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : {balance}\n"
+        await self.client.get_channel(973630743861415986).send(embed = embed)
         
 def setup(client):
     client.add_cog(Number(client))
