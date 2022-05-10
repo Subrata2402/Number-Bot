@@ -26,7 +26,7 @@ class Payment(commands.Cog):
         except:
             return await ctx.send(ctx.author.mention + ", Invalid Order ID!")
             
-        channel = self.client.get_channel(channel_id)
+        channel = self.client.get_channel(866664668696412183)
         embed = discord.Embed(title = "Payment Information !",
             description = f"```\n" \
                 f"Username : {ctx.author}\n" \
