@@ -1,2 +1,2 @@
-# ubiquitous-waffle
+# Number Bot
 Get number and OTP from bot.
