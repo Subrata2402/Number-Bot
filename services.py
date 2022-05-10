@@ -4,4 +4,5 @@ service_list = {
     "discord": 12,
     "google": 14,
     "flipkart": 10,
+    "amazon": 15,
 }
