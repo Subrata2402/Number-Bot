@@ -20,12 +20,13 @@ class Number(commands.Cog, NumberApi):
         
 
     @commands.command()
-    async def get(self, ctx, service: str = None):
-        if not service: return await ctx.send("Please provide a service name to request a number.")
+    async def getnumber(self, ctx, service: str = None):
+        if not service: return await ctx.send(ctx.author.mention + ", Please provide a service name to request a number.")
         price = services.service_list.get(service.lower())
         if not price:
-            return await ctx.send(f"Invalid service name. Please use `{ctx.prefix}price` to get a list of price of service.")
-        
+            return await ctx.send(ctx.author.mention + f", Invalid service name. Please use `{ctx.prefix}price` to get a list of price of service.")
+        self_details = db.user.find_one({"user_id": ctx.author.id})
+        if not self_details: return 
         
         
 def setup(client):
