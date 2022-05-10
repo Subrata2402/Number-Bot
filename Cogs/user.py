@@ -26,7 +26,7 @@ class UserDetails(commands.Cog):
         if member.bot: return await ctx.send(ctx.author.mention + ", You can't share your points to a bot user.")
         if member == ctx.author: return await ctx.send(ctx.author.mention + ", You can't share your points yourself.")
         self_details = db.user.find_one({"user_id": ctx.author.id})
-        if not self.self_details: return await ctx.send(ctx.author.mention + ", You don't have any points to share. To buy points use Command `{}buy`!".format(ctx.prefix))
+        if not self_details: return await ctx.send(ctx.author.mention + ", You don't have any points to share. To buy points use Command `{}buy`!".format(ctx.prefix))
         self_points = self_details.get("points")
         if self_points < amount: return await ctx.send(ctx.author.mention + ", You don't have enough points to share **{}** points. To buy points use command `{}buy`!".format(amount, ctx.prefix))
         user_details = db.user.find_one({"user_id": member.id})
