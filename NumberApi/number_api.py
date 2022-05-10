@@ -1,8 +1,8 @@
 import aiohttp, asyncio
 
 class NumberApi(object):
-    def __init__(self, access_code: str = None):
-        self.access_code = access_code
+    def __init__(self):
+        self.access_code = ""
         self.host = "https://autobuyotp.com/sms/sms2.php"
     
     async def fetch(self, method = "GET", function = "", headers = None, data = None):
