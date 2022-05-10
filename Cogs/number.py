@@ -11,6 +11,7 @@ class Number(commands.Cog, NumberApi):
         self.data = {}
 
     @commands.command(aliases = ["prices"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def price(self, ctx):
         description = ""
         embed = discord.Embed(title = "Price list of Services !", color = discord.Colour.random())
@@ -20,6 +21,7 @@ class Number(commands.Cog, NumberApi):
         await ctx.send(embed = embed)
 
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def getnumber(self, ctx, service: str = None):
         if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
         if not service: return await ctx.send(ctx.author.mention + ", Please provide a service name to request a number.")
@@ -51,6 +53,7 @@ class Number(commands.Cog, NumberApi):
         await self.client.get_channel(973630743861415986).send(embed = embed)
         
     @commands.command(aliases = ["getcode"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def getsms(self, ctx, activation_id: int = None):
         if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
         if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
@@ -69,6 +72,7 @@ class Number(commands.Cog, NumberApi):
         await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
             
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def cancel(self, ctx, activation_id: int = None):
         if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
         if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
@@ -79,6 +83,7 @@ class Number(commands.Cog, NumberApi):
         await ctx.send(ctx.author.mention + ", " + message)
         
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def history(self, ctx, activation_id: int = None):
         if ctx.guild: return await ctx.send(ctx.author.mention + ", You can use this command only in DM!")
         if not activation_id: return await ctx.send(ctx.author.mention + ", You didn't enter activation ID!")
