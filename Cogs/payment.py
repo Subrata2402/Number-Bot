@@ -16,3 +16,16 @@ class UserDetails(commands.Cog):
             color = discord.Colour.random())
         embed.set_image(url = url)
         embed.set_footer(text = "Payment Created by : {}".format(ctx.author))
+        await ctx.author.send(embed = embed)
+        try:
+            message = await self.client.wait_for("message", timeout = 300.0)
+        except:
+            return await ctx.send(ctx.author.mention + ", You failed to send your order ID or Transaction ID within time. Don't worry if already paid the amount then start this session again and send your ID.")
+        try:
+            id = int(message)
+        except:
+            return await ctx.send(ctx.author.mention + ", Invalid Order ID or Transaction ID!")
+            
+        channel = self.client.get_channel(channel_id)
+        embed = discord.Embed(title = "Payment Information !",
+            
