@@ -15,7 +15,7 @@ class Payment(commands.Cog):
         embed = discord.Embed(title = "Payment Instructions !",
             description = "Please send exactly **₹{}** to the following QR! After payment send your Order ID or Transaction ID here within 5 minutes. Your points will be given within 10 minutes.".format(points),
             color = discord.Colour.random())
-        embed.set_image(url = url)
+        embed.set_image(url = "https://media.discordapp.net/attachments/860116826159316992/973671108421230612/IMG_20220511_010823.jpg")
         embed.set_footer(text = "Payment Created by : {}".format(ctx.author))
         await ctx.author.send(embed = embed)
         try:
