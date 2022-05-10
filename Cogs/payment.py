@@ -13,9 +13,9 @@ class Payment(commands.Cog):
         if not points: return await ctx.send(ctx.author.mention + ", You didn't enter any points amount.")
         if ctx.guild: await ctx.send(ctx.author.mention + "**, Let's continue in DM!**")
         embed = discord.Embed(title = "Payment Instructions !",
-            description = "Please send exactly **₹{}** to the following QR! After payment send your Order ID or Transaction ID here within 5 minutes. Your points will be given within 10 minutes.".format(points),
+            description = "Payment Link : https://paytm.me/x-WGerG\nPlease send exactly **₹{}** to the following payment link! After payment send your Order ID here within 5 minutes.".format(points),
             color = discord.Colour.random())
-        embed.set_image(url = "https://media.discordapp.net/attachments/860116826159316992/973671108421230612/IMG_20220511_010823.jpg")
+        #embed.set_image(url = "https://media.discordapp.net/attachments/860116826159316992/973671108421230612/IMG_20220511_010823.jpg")
         embed.set_footer(text = "Payment Created by : {}".format(ctx.author))
         await ctx.author.send(embed = embed)
         try:
