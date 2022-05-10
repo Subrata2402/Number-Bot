@@ -8,6 +8,7 @@ class UserDetails(commands.Cog):
         self.client = client
 
     @commands.command(aliases = ["point"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def points(self, ctx, member: discord.Member = None):
         if not member: member = ctx.author
         user = db.user.find_one({"user_id": member.id})
@@ -17,7 +18,8 @@ class UserDetails(commands.Cog):
             points = 0
         await ctx.send(member.mention + " has **{}** points!".format(points))
         
-    @commands.command()
+    @commands.command(aliases = ["share"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def give(self, ctx, amount: int = None, member: discord.Member = None):
         if not amount: return await ctx.send(ctx.author.mention + ", Please mention the amount to share your points.")
         if not member: return await ctx.send(ctx.author.mention + ", Please mention someone to share your points.")
