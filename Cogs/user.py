@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from database import db
+from typing import Union
 
 class UserDetails(commands.Cog):
     
@@ -9,7 +10,7 @@ class UserDetails(commands.Cog):
 
     @commands.command(aliases = ["point"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def points(self, ctx, member: discord.Member = None):
+    async def points(self, ctx, member: Union[discord.Member, discord.User] = None):
         if not member: member = ctx.author
         user = db.user.find_one({"user_id": member.id})
         if user:
@@ -20,7 +21,7 @@ class UserDetails(commands.Cog):
         
     @commands.command(aliases = ["share"])
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def give(self, ctx, amount: int = None, member: discord.Member = None):
+    async def give(self, ctx, amount: int = None, member: Union[discord.Member, discord.User] = None):
         amount = abs(amount)
         if not amount: return await ctx.send(ctx.author.mention + ", Please mention the amount to share your points.")
         if not member: return await ctx.send(ctx.author.mention + ", Please mention someone to share your points.")
@@ -44,7 +45,7 @@ class UserDetails(commands.Cog):
         
     @commands.command()
     @commands.is_owner()
-    async def add(self, ctx, amount: int = None, member: discord.Member = None):
+    async def add(self, ctx, amount: int = None, member: Union[discord.Member, discord.User] = None):
         if not amount: return await ctx.send(ctx.author.mention + ", Please mention the amount to add points.")
         if not member: return await ctx.send(ctx.author.mention + ", Please mention someone to add points.")
         if member.bot: return await ctx.send(ctx.author.mention + ", You can't add points to a bot user.")
