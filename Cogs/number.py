@@ -16,7 +16,6 @@ class Number(commands.Cog, NumberApi):
     @commands.is_owner()
     async def hist(self, ctx):
         history = await self.get_history()
-        history.remove(history[0])
         description = ""
         for i, data in enumerate(history):
             for index, target in enumerate(data):
@@ -28,7 +27,7 @@ class Number(commands.Cog, NumberApi):
             if i == 19:
                 break
         embed = discord.Embed(title = "__History of Numbers !__", description = description, color = discord.Colour.random())
-        embed.set_footer(text = "Requested by : " + ctx.author, icon_url = ctx.author.avatar_url)
+        embed.set_footer(text = f"Requested by : {ctx.author}", icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
         
     @commands.command()
