@@ -21,6 +21,7 @@ class UserDetails(commands.Cog):
     @commands.command(aliases = ["share"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def give(self, ctx, amount: int = None, member: discord.Member = None):
+        amount = abs(amount)
         if not amount: return await ctx.send(ctx.author.mention + ", Please mention the amount to share your points.")
         if not member: return await ctx.send(ctx.author.mention + ", Please mention someone to share your points.")
         if member.bot: return await ctx.send(ctx.author.mention + ", You can't share your points to a bot user.")
