@@ -1,4 +1,4 @@
-import aiohttp, asyncio, json
+import aiohttp, asyncio, json, requests, bs4
 
 class NumberApi(object):
     def __init__(self):
@@ -24,3 +24,22 @@ class NumberApi(object):
         
     async def get_message_history(self, activation_id):
         return await self.fetch("GET", "?act=otp&number={}".format(activation_id))
+
+    async def get_history(self):
+        r = requests.get("https://autobuyotp.com/server/history.php?accessCode=" + self.access_code)
+        soup = bs4.BeautifulSoup(r.text , "html.parser")
+        response = soup.find_all("tr")
+        history = []
+        for r in response:
+            history.append(r.text.split("\n"))
+        return history
+
+    async def get_balance(self):
+        r = requests.get("https://autobuyotp.com/server/history.php?accessCode=" + self.access_code)
+        soup = bs4.BeautifulSoup(r.text , "html.parser")
+        response = soup.find("font").text
+        s = response.find("Total")
+        balance = response[:s]
+        otps = response[s:]
+        return balance, otps
+        
