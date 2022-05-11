@@ -30,6 +30,7 @@ class NumberApi(object):
         soup = bs4.BeautifulSoup(r.text , "html.parser")
         response = soup.find_all("tr")
         history = [data.text.split("\n") for data in response]
+        history.remove(history[0])
         return history
 
     async def get_balance(self):
