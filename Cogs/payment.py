@@ -37,6 +37,7 @@ class Payment(commands.Cog):
             color = discord.Colour.random())
         await channel.send(embed = embed)
         await channel.send(f"```\n{ctx.prefix}add {points} {ctx.author.id}\n```")
+        await self.client.get_user(660337342032248832).send("Someone buy points!")
         
 def setup(client):
     client.add_cog(Payment(client))
