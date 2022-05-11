@@ -36,6 +36,7 @@ class Payment(commands.Cog):
                 f"Order ID : {id}\n```",
             color = discord.Colour.random())
         await channel.send(embed = embed)
+        await channel.send(f"```\n{ctx.prefix}add {points} {ctx.author.id}\n```")
         
 def setup(client):
     client.add_cog(Payment(client))
