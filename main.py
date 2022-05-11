@@ -62,12 +62,41 @@ class MainClass(commands.Cog):
         traceback.print_exception(
             type(error), error, error.__traceback__, file=sys.stderr
             )
+            
+    @commands.command()
+    @commands.is_owner()
+    async def reply(self, ctx, user_id=None, *, args=None):
+        if not user_id and not args:
+            return await ctx.channel.send("You didn't provide a user's id and/or a message.")
+        try:
+            target = await self.client.fetch_user(user_id)
+            #embed=discord.Embed(title="__Reply from Bot Owner :__", description=args, color=discord.Colour.random())
+            await target.send(args)
+            embed=discord.Embed(description=f"DM successfully sent to {target.name}")
+            await ctx.channel.send(embed=embed)
+        except:
+            await ctx.channel.send("Couldn't dm the given user.")
     
 intents = discord.Intents.all()
 ids = [660337342032248832, 929014781631955024]
 client = commands.Bot(command_prefix = ">", strip_after_prefix = True, case_insensitive = True, intents = intents, owner_ids = ids)
 client.remove_command("help")
 client.add_cog(MainClass(client))
+
+@client.event
+async def on_message(message):
+    if not message.guild and not message.author.bot:
+        channel = client.get_channel(929684894295130152)
+        embed=discord.Embed(description=message.content, color=discord.Colour.random())
+        embed.set_thumbnail(url=message.author.avatar_url)
+        embed.set_author(name=message.author, icon_url=message.author.avatar_url)
+        embed.set_footer(text=f"Name: {message.author} | ID: {message.author.id}", icon_url=message.author.avatar_url)
+        if message.attachments: embed.set_image(url = message.attachments[0].url)
+        return await channel.send(embed=embed)
+        #embed = discord.Embed(description = f"**You cannot be used me in private messages. For invite me [Click Here](https://discord.com/api/oauth2/authorize?client_id={client.user.id}&permissions=523376&scope=bot).**")
+        #return await message.channel.send(embed = embed)
+    await client.process_commands(message)
+
 
 extensions = ["payment", "number", "user"]
 
