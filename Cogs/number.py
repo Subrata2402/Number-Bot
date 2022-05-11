@@ -46,7 +46,7 @@ class Number(commands.Cog, NumberApi):
         embed.set_thumbnail(url = self.client.user.avatar_url)
         embed.set_footer(text = "Requested by : {}".format(ctx.author), icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
-        self.data[activation_id] = False
+        self.data["activation_id"] = False
         self.data["price"] = price
         embed = discord.Embed(title = "Number Buyer Information !", color = discord.Colour.random())
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
