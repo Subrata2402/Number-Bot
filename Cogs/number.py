@@ -22,7 +22,7 @@ class Number(commands.Cog, NumberApi):
                 if target:
                     if index == 4: continue
                     if index == 5 and target != "REFUNDED": target = "OTP RECIEVED"
-                    description += f"{func[index]} : {target}\n"
+                    description += f"{func[index]} : {target.title()}\n"
             description += "=======================\n"
             if i == 19:
                 break
