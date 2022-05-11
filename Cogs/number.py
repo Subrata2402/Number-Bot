@@ -9,6 +9,12 @@ class Number(commands.Cog, NumberApi):
         super().__init__()
         self.client = client
         self.data = {}
+        
+    @commands.command()
+    async def balance(self, ctx):
+        balance, total_otp = await self.get_balance()
+        embed = discord.Embed(title = total_otp + "\n" + balance + "rs", color = discord.Colour.random())
+        await ctx.send(embed = embed)
 
     @commands.command(aliases = ["prices"])
     @commands.cooldown(1, 10, commands.BucketType.user)
