@@ -62,9 +62,9 @@ class Number(commands.Cog, NumberApi):
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
         sms = response.get("sms")
         balance = response.get("balance")
-        check = data.get("activation_id")
+        check = self.data.get("activation_id")
         if not check:
-            price = data.get("price")
+            price = self.data.get("price")
             points = db.user.find_one({"user_id": ctx.author.id}).get("points")
             update = {"points": points - price}
             db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
