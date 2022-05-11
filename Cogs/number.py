@@ -49,7 +49,7 @@ class Number(commands.Cog, NumberApi):
         self.data[activation_id] = False
         self.data["price"] = price
         embed = discord.Embed(title = "Number Buyer Information !", color = discord.Colour.random())
-        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
+        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         await self.client.get_channel(973630743861415986).send(embed = embed)
         
     @commands.command(aliases = ["getcode"])
