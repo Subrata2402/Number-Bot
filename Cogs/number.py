@@ -15,7 +15,11 @@ class Number(commands.Cog, NumberApi):
     @commands.is_owner()
     async def hist(self, ctx):
         history = await self.get_history()
-        
+        history.remove(history[0])
+        description = ""
+        for data in history:
+            for target in data:
+                if target
         
     @commands.command()
     @commands.is_owner()
