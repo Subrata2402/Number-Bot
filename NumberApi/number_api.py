@@ -2,7 +2,7 @@ import aiohttp, asyncio, json
 
 class NumberApi(object):
     def __init__(self):
-        self.access_code = ""
+        self.access_code = "ea33hkhux"
         self.host_one = "https://autobuyotp.com/sms/sms.php"
         self.host_two = "https://autobuyotp.com/sms/sms2.php"
         self.host_three = "https://autobuyotp.com/sms/amz.php"
