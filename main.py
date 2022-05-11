@@ -39,11 +39,12 @@ class MainClass(commands.Cog):
         embed = discord.Embed(title = "Invite Bot",
             description = f"[Click Here](https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot) to invite bot in your server.",
             color = discord.Colour.random())
-        await ctx.reply(content = ctx.author.mention, embed = embed)
+        await ctx.send(embed = embed)
     
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def support(self, ctx):
+        """Get Support server link."""
         embed = discord.Embed(title = "Supper Server !", description = "[Click Here](https://discord.gg/ASRRZT3YQr) to join our support server.", color = discord.Colour.random())
         await ctx.send(embed = embed)
     
