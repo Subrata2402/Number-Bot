@@ -69,7 +69,10 @@ class Number(commands.Cog, NumberApi):
             update = {"points": points - price}
             db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
             self.data["activation_id"] = True
-        await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
+        if sms:
+            await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
+        else:
+            await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages yet.\n```")
             
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
