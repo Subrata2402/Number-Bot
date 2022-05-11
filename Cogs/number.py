@@ -28,6 +28,7 @@ class Number(commands.Cog, NumberApi):
                 break
         embed = discord.Embed(title = "__History of Numbers !__", description = description, color = discord.Colour.random())
         embed.set_footer(text = f"Requested by : {ctx.author}", icon_url = ctx.author.avatar_url)
+        embed.set_thumbnail(url = self.client.user.avatar_url)
         await ctx.send(embed = embed)
         
     @commands.command()
