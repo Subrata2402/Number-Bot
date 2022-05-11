@@ -21,7 +21,7 @@ class Number(commands.Cog, NumberApi):
             for index, target in enumerate(data):
                 if target:
                     if index == 4: continue
-                    if index == 5 and target != "REFUNDED": target = "RECIEVED"
+                    if index == 5 and target != "REFUNDED": target = "OTP RECIEVED"
                     description += f"{func[index]} : {target}\n"
             description += "=======================\n"
             if i == 19:
