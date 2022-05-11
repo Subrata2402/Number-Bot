@@ -29,9 +29,7 @@ class NumberApi(object):
         r = requests.get("https://autobuyotp.com/server/history.php?accessCode=" + self.access_code)
         soup = bs4.BeautifulSoup(r.text , "html.parser")
         response = soup.find_all("tr")
-        history = []
-        for r in response:
-            history.append(r.text.split("\n"))
+        history = [data.text.split("\n") for data in response]
         return history
 
     async def get_balance(self):
