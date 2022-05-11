@@ -19,7 +19,7 @@ class Payment(commands.Cog):
         embed.set_footer(text = "Payment Created by : {}".format(ctx.author))
         await ctx.author.send(embed = embed)
         try:
-            message = await self.client.wait_for("message", timeout = 300.0)
+            message = await self.client.wait_for("message", timeout = 300.0, check = lambda message: message.author == ctx.author)
         except:
             return await ctx.author.send(ctx.author.mention + ", You failed to send your order ID within time. Don't worry if already paid the amount then start this session again and send your ID.")
         try:
