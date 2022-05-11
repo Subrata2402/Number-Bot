@@ -63,7 +63,7 @@ class Number(commands.Cog, NumberApi):
         sms = response.get("sms")
         balance = response.get("balance")
         check = self.data.get(activation_id)
-        if not check:
+        if not check and sms:
             price = self.data.get("price")
             points = db.user.find_one({"user_id": ctx.author.id}).get("points")
             update = {"points": points - price}
