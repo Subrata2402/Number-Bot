@@ -2,6 +2,7 @@ import discord, services
 from discord.ext import commands
 from NumberApi.number_api import NumberApi
 from database import db
+func = ["", "Number", "Time", "Service", "Server", "Status"]
 
 class Number(commands.Cog, NumberApi):
     
@@ -17,9 +18,15 @@ class Number(commands.Cog, NumberApi):
         history = await self.get_history()
         history.remove(history[0])
         description = ""
-        for data in history:
-            for target in data:
-                if target
+        for i, data in enumerate(history):
+            for index, target in enumerate(data):
+                if target:
+                    description += f"{func[index]} : {target}\n======================="
+            if i == 19:
+                break
+        embed = discord.Embed(title = "__History of Numbers !__", description = description, color = discord.Colour.random())
+        embed.set_footer(text = "Requested by : " + ctx.author, icon_url = ctx.author.avatar_url)
+        await ctx.send(embed = embed)
         
     @commands.command()
     @commands.is_owner()
