@@ -21,7 +21,10 @@ class Number(commands.Cog, NumberApi):
         for i, data in enumerate(history):
             for index, target in enumerate(data):
                 if target:
-                    description += f"{func[index]} : {target}\n======================="
+                    if index == 4: continue
+                    if index == 5 and target != "REFUNDED": target = "RECIEVED"
+                    description += f"{func[index]} : {target}\n"
+            description += "=======================\n"
             if i == 19:
                 break
         embed = discord.Embed(title = "__History of Numbers !__", description = description, color = discord.Colour.random())
