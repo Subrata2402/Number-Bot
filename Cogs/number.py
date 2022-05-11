@@ -38,7 +38,7 @@ class Number(commands.Cog, NumberApi):
             await ctx.send("Something went wrong please try again after some times.")
             return await self.client.get_channel(973629964056399882).send(error)
         number = response.get("number")
-        activation_id = response.get("activation_id")
+        activation_id = response.get("id")
         balance = response.get("balance")
         embed = discord.Embed(title = "Number for {}".format(service.title()), color = discord.Colour.random())
         embed.add_field(name = "Number", value = number, inline = False)
@@ -49,7 +49,7 @@ class Number(commands.Cog, NumberApi):
         self.data[activation_id] = False
         self.data["price"] = price
         embed = discord.Embed(title = "Number Buyer Information !", color = discord.Colour.random())
-        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : {balance}\n"
+        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         await self.client.get_channel(973630743861415986).send(embed = embed)
         
     @commands.command(aliases = ["getcode"])
