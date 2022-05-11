@@ -36,10 +36,16 @@ class MainClass(commands.Cog):
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def invite(self, ctx):
         """Get an invite link of bot."""
-        embed = discord.Embed(title = "Invite me to your server.",
-            url = f"https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot",
+        embed = discord.Embed(title = "Invite Bot",
+            description = f"[Click Here](https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot) to invite bot in your server.",
             color = discord.Colour.random())
         await ctx.reply(content = ctx.author.mention, embed = embed)
+    
+    @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def support(self, ctx):
+        embed = discord.Embed(title = "Supper Server !", description = "[Click Here](https://discord.gg/ASRRZT3YQr) to join our support server.", color = discord.Colour.random())
+        await ctx.send(embed = embed)
     
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
