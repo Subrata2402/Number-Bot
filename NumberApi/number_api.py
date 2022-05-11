@@ -3,11 +3,13 @@ import aiohttp, asyncio, json
 class NumberApi(object):
     def __init__(self):
         self.access_code = ""
-        self.host = "https://autobuyotp.com/sms/sms2.php"
+        self.host_one = "https://autobuyotp.com/sms/sms.php"
+        self.host_two = "https://autobuyotp.com/sms/sms2.php"
+        self.host_three = "https://autobuyotp.com/sms/amz.php"
     
     async def fetch(self, method = "GET", function = "", headers = None, data = None):
         async with aiohttp.ClientSession() as session:
-            response = await session.request(method = method, url = self.host + function, headers = headers, data = data)
+            response = await session.request(method = method, url = self.host_two + function, headers = headers, data = data)
             content = await response.text()
             return json.loads(content)
 
