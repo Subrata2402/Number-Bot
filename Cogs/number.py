@@ -14,10 +14,11 @@ class Number(commands.Cog, NumberApi):
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def price(self, ctx):
         description = ""
-        embed = discord.Embed(title = "Price list of Services !", color = discord.Colour.random())
+        embed = discord.Embed(title = "__Price list of Services !__", color = discord.Colour.random())
         for key, value in services.service_list.items():
             description += "• {} - {} points\n".format(key.title(), value)
         embed.description = "```\n{}\n```".format(description)
+        embed.set_thumbnail(url = self.client.user.avatar_url)
         await ctx.send(embed = embed)
 
     @commands.command()
