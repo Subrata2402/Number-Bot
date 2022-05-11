@@ -27,6 +27,7 @@ class MainClass(commands.Cog):
         embed.add_field(name = f"{ctx.prefix}cancel [activation id]", value = "Cancel a number.", inline = False)
         embed.add_field(name = f"{ctx.prefix}history [activation id]", value = "Get sms history of a number.", inline = False)
         embed.add_field(name = f"{ctx.prefix}invite", value = "Get bot invite link.", inline = False)
+        embed.add_field(name = f"{ctx.prefix}support", value = "Get support server link.", inline = False)
         embed.set_thumbnail(url = self.client.user.avatar_url)
         embed.set_author(name = f"| {self.client.user.name} Help Commands !", icon_url = self.client.user.avatar_url)
         embed.set_footer(text = f"Requested by : {ctx.author}", icon_url = ctx.author.avatar_url)
