@@ -10,6 +10,13 @@ class Number(commands.Cog, NumberApi):
         self.client = client
         self.data = {}
         
+    
+    @commands.command()
+    @commands.is_owner()
+    async def hist(self, ctx):
+        history = await self.get_history()
+        
+        
     @commands.command()
     @commands.is_owner()
     async def balance(self, ctx):
