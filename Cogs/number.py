@@ -101,8 +101,8 @@ class Number(commands.Cog, NumberApi):
             self.data[activation_id]["sms"] = True
         if sms:
             await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
-            embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved", color = discord.Colour.random())
-            await self.client.get_channel(973630743861415986).send(embed = embed)
+            embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved\nRemaining Balance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
+            await self.client.get_channel(974325308251594814).send(embed = embed)
         else:
             await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages.\n```")
             
@@ -117,7 +117,7 @@ class Number(commands.Cog, NumberApi):
         message = response.get("msg")
         await ctx.send(ctx.author.mention + ", " + message)
         embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Cancelled", color = discord.Colour.random())
-        await self.client.get_channel(973630743861415986).send(embed = embed)
+        await self.client.get_channel(974325308251594814).send(embed = embed)
         
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
