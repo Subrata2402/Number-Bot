@@ -80,6 +80,7 @@ class Number(commands.Cog, NumberApi):
         self.data[activation_id]["price"] = price
         embed = discord.Embed(title = "__Number Buyer Information !__", color = discord.Colour.random())
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
+        embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(973630743861415986).send(embed = embed)
         
     @commands.command(aliases = ["getcode"])
@@ -102,6 +103,7 @@ class Number(commands.Cog, NumberApi):
         if sms:
             await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
             embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
+            embed.set_thumbnail(url = self.client.user.avatar_url)
             await self.client.get_channel(974325308251594814).send(embed = embed)
         else:
             await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages.\n```")
@@ -119,6 +121,7 @@ class Number(commands.Cog, NumberApi):
         balance, total_otp = await self.get_balance()
         await ctx.send(ctx.author.mention + ", " + message)
         embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points} points", color = discord.Colour.random())
+        embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(974325308251594814).send(embed = embed)
         
     @commands.command()
@@ -135,6 +138,7 @@ class Number(commands.Cog, NumberApi):
         for message in messages:
             description += str(message) + "\n\n"
         embed = discord.Embed(title = "History of Messages !", description = description, color = discord.Colour.random())
+        embed.set_thumbnail(url = self.client.user.avatar_url)
         await ctx.send(embed = embed)
         
 def setup(client):
