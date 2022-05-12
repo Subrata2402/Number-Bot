@@ -7,5 +7,5 @@ service_list = {
     "amazon": 15,
     "mimir": 12,
     "telegram": 15,
-    "fairplay fantasy": 15,
+    "fairplay": 15,
 }
