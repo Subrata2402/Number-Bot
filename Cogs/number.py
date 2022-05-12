@@ -61,7 +61,7 @@ class Number(commands.Cog, NumberApi):
         if not self_details: return await ctx.send(ctx.author.mention + ", You don't have enough points to buy numb.")
         points = self_details.get("points")
         if points < price: return await ctx.send(ctx.author.mention + ", You don't have enough points to buy number.")
-        response = await self.get_number(service.lower() if service.lower() not in ["mimir", "telegram"] else "others")
+        response = await self.get_number(service.lower() if service.lower() not in ["mimir", "telegram", "fairplay fantasy"] else "others")
         error = response.get("error")
         if error:
             await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
