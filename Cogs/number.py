@@ -64,7 +64,7 @@ class Number(commands.Cog, NumberApi):
         response = await self.get_number(service.lower() if service.lower() not in ["mimir", "telegram"] else "others")
         error = response.get("error")
         if error:
-            await ctx.send("Something went wrong please try again after some times.")
+            await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
             return await self.client.get_channel(973629964056399882).send(error)
         number = response.get("number")
         activation_id = response.get("id")
@@ -101,8 +101,10 @@ class Number(commands.Cog, NumberApi):
             self.data[activation_id]["sms"] = True
         if sms:
             await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
+            embed = discord.Embed(title = "Otp Status !", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved", color = discord.Colour.random())
+            await self.client.get_channel(973630743861415986).send(embed = embed)
         else:
-            await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages yet.\n```")
+            await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages.\n```")
             
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -114,6 +116,8 @@ class Number(commands.Cog, NumberApi):
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
         message = response.get("msg")
         await ctx.send(ctx.author.mention + ", " + message)
+        embed = discord.Embed(title = "Otp Status !", description = f"Activation ID : {activation_id}\nStatus : Cancelled", color = discord.Colour.random())
+        await self.client.get_channel(973630743861415986).send(embed = embed)
         
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
