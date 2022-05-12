@@ -101,7 +101,7 @@ class Number(commands.Cog, NumberApi):
             self.data[activation_id]["sms"] = True
         if sms:
             await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
-            embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved\nRemaining Balance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
+            embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
             await self.client.get_channel(974325308251594814).send(embed = embed)
         else:
             await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages.\n```")
@@ -115,8 +115,10 @@ class Number(commands.Cog, NumberApi):
         error = response.get("error")
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
         message = response.get("msg")
+        points = db.user.find_one({"user_id": ctx.author.id}).get("points")
+        balance, total_otp = await self.get_balance()
         await ctx.send(ctx.author.mention + ", " + message)
-        embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Cancelled", color = discord.Colour.random())
+        embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points} points", color = discord.Colour.random())
         await self.client.get_channel(974325308251594814).send(embed = embed)
         
     @commands.command()
