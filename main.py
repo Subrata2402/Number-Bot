@@ -78,7 +78,7 @@ class MainClass(commands.Cog):
             await ctx.channel.send("Couldn't dm the given user.")
     
 intents = discord.Intents.all()
-ids = [660337342032248832, 929014781631955024]
+ids = [660337342032248832, 929014781631955024, 974250975252582420]
 client = commands.Bot(command_prefix = ">", strip_after_prefix = True, case_insensitive = True, intents = intents, owner_ids = ids)
 client.remove_command("help")
 client.add_cog(MainClass(client))
