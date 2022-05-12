@@ -69,7 +69,7 @@ class Number(commands.Cog, NumberApi):
         number = response.get("number")
         activation_id = response.get("id")
         balance = response.get("balance")
-        embed = discord.Embed(title = "Number for {}".format(service.title()), color = discord.Colour.random())
+        embed = discord.Embed(title = "__Number for {} !__".format(service.title()), color = discord.Colour.random())
         embed.add_field(name = "Number", value = number, inline = False)
         embed.add_field(name = "Activation ID", value = activation_id, inline = False)
         embed.set_thumbnail(url = self.client.user.avatar_url)
@@ -78,7 +78,7 @@ class Number(commands.Cog, NumberApi):
         self.data[activation_id] = {}
         self.data[activation_id]["sms"] = False
         self.data[activation_id]["price"] = price
-        embed = discord.Embed(title = "Number Buyer Information !", color = discord.Colour.random())
+        embed = discord.Embed(title = "__Number Buyer Information !__", color = discord.Colour.random())
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         await self.client.get_channel(973630743861415986).send(embed = embed)
         
@@ -101,7 +101,7 @@ class Number(commands.Cog, NumberApi):
             self.data[activation_id]["sms"] = True
         if sms:
             await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
-            embed = discord.Embed(title = "Otp Status !", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved", color = discord.Colour.random())
+            embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved", color = discord.Colour.random())
             await self.client.get_channel(973630743861415986).send(embed = embed)
         else:
             await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages.\n```")
@@ -116,7 +116,7 @@ class Number(commands.Cog, NumberApi):
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
         message = response.get("msg")
         await ctx.send(ctx.author.mention + ", " + message)
-        embed = discord.Embed(title = "Otp Status !", description = f"Activation ID : {activation_id}\nStatus : Cancelled", color = discord.Colour.random())
+        embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Cancelled", color = discord.Colour.random())
         await self.client.get_channel(973630743861415986).send(embed = embed)
         
     @commands.command()
