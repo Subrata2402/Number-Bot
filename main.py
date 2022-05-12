@@ -37,7 +37,7 @@ class MainClass(commands.Cog):
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def invite(self, ctx):
         """Get an invite link of bot."""
-        embed = discord.Embed(title = "Invite Bot",
+        embed = discord.Embed(title = "Invite Bot !",
             description = f"[Click Here](https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot) to invite bot in your server.",
             color = discord.Colour.random())
         await ctx.send(embed = embed)
