@@ -8,7 +8,7 @@ from FiveSimApi import fivesim
 
 async def main():
     five_sim = fivesim.FiveSim(api_key)
-    data = await sm.get_profile()
+    data = await five_sim.get_profile()
     print(data)
 
 asyncio.run(main())
