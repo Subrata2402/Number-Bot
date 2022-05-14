@@ -78,6 +78,7 @@ class Number(commands.Cog, NumberApi):
         self.data[activation_id] = {}
         self.data[activation_id]["sms"] = False
         self.data[activation_id]["price"] = price
+        self.data[activation_id]["number"] = number
         embed = discord.Embed(title = "__Number Buyer Information !__", color = discord.Colour.random())
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         embed.set_thumbnail(url = self.client.user.avatar_url)
@@ -101,12 +102,13 @@ class Number(commands.Cog, NumberApi):
             db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
             self.data[activation_id]["sms"] = True
         if sms:
-            await ctx.send(ctx.author.mention + "\n```\n" + str(sms) + "\n```")
-            embed = discord.Embed(title = "__Otp Status !__", description = f"Activation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
+            number = self.data.get(activation_id).get("number")
+            embed = discord.Embed(title = "__Otp Status !__", description = f"Number : {number}\nActivation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
             embed.set_thumbnail(url = self.client.user.avatar_url)
             await self.client.get_channel(974325308251594814).send(embed = embed)
         else:
-            await ctx.send(ctx.author.mention + "\n```\nDidn't come any messages.\n```")
+            embed = discord.Embed(title = "__+91" + str(number) + "__", description = "Didn't come any messages.", color = discord.Colour.random())
+            await ctx.send(embed = embed)
             
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
