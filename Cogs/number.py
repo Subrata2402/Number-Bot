@@ -70,7 +70,7 @@ class Number(commands.Cog, NumberApi):
         activation_id = response.get("id")
         balance = response.get("balance")
         embed = discord.Embed(title = "__Number for {} !__".format(service.title()), color = discord.Colour.random())
-        embed.add_field(name = "Number", value = number, inline = False)
+        embed.add_field(name = "Number", value = "+91" + str(number), inline = False)
         embed.add_field(name = "Activation ID", value = activation_id, inline = False)
         embed.set_thumbnail(url = self.client.user.avatar_url)
         embed.set_footer(text = "Requested by : {}".format(ctx.author), icon_url = ctx.author.avatar_url)
@@ -80,7 +80,7 @@ class Number(commands.Cog, NumberApi):
         self.data[activation_id]["price"] = price
         self.data[activation_id]["number"] = number
         embed = discord.Embed(title = "__Number Buyer Information !__", color = discord.Colour.random())
-        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : {number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
+        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : +91{number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(973630743861415986).send(embed = embed)
         
@@ -105,7 +105,7 @@ class Number(commands.Cog, NumberApi):
         if sms:
             embed = discord.Embed(title = "__+91" + str(number) + "__", description = sms, color = discord.Colour.random())
             await ctx.send(embed = embed)
-            embed = discord.Embed(title = "__Otp Status !__", description = f"Number : {number}\nActivation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
+            embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
             embed.set_thumbnail(url = self.client.user.avatar_url)
             await self.client.get_channel(974325308251594814).send(embed = embed)
         else:
@@ -125,7 +125,7 @@ class Number(commands.Cog, NumberApi):
         balance, total_otp = await self.get_balance()
         await ctx.send(ctx.author.mention + ", " + message)
         number = self.data.get(activation_id).get("number")
-        embed = discord.Embed(title = "__Otp Status !__", description = f"Number : {number}\nActivation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points} points", color = discord.Colour.random())
+        embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points} points", color = discord.Colour.random())
         embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(974325308251594814).send(embed = embed)
         
