@@ -8,4 +8,5 @@ service_list = {
     "mimir": 12,
     "telegram": 15,
     "fairplay": 15,
+    "apollo": 10,
 }
