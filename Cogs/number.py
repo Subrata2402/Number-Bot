@@ -101,8 +101,8 @@ class Number(commands.Cog, NumberApi):
             update = {"points": points - price}
             db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
             self.data[activation_id]["sms"] = True
+        number = self.data.get(activation_id).get("number")
         if sms:
-            number = self.data.get(activation_id).get("number")
             embed = discord.Embed(title = "__Otp Status !__", description = f"Number : {number}\nActivation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
             embed.set_thumbnail(url = self.client.user.avatar_url)
             await self.client.get_channel(974325308251594814).send(embed = embed)
