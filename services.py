@@ -7,7 +7,7 @@ service_list = {
     "amazon": 15,
     "mimir": 12,
     "telegram": 15,
-    "fairplay": 15,
+    "fairplay_fantasy": 15,
     "apollo": 10,
     "winzo": 10,
     "swiggy":10,
@@ -21,4 +21,12 @@ service_list = {
     "myteam11": 10,
     "shopsy": 12,
     "zomato": 13,
+    "gamezy": 10,
+    "rummycircle": 10,
+    "shopee": 13,
+    "jiomart": 10,
+    "jungleerummy": 10,
+    "classicrummy": 11,
+    "byjus": 12,
+    "royal_rummy": 10
 }
