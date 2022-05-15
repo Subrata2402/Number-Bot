@@ -59,7 +59,7 @@ class MainClass(commands.Cog):
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def support(self, ctx):
         """Get Support server link."""
-        embed = discord.Embed(title = "Supper Server !", description = "[Click Here](https://discord.gg/ASRRZT3YQr) to join our support server.", color = discord.Colour.random())
+        embed = discord.Embed(title = "Supper Server !", description = "[Click Here](https://discord.gg/Dwm3yxhvUa) to join our support server.", color = discord.Colour.random())
         await ctx.send(embed = embed)
     
     @commands.Cog.listener()
