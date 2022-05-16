@@ -77,6 +77,7 @@ class Number(commands.Cog, NumberApi):
         embed.set_footer(text = "Requested by : {}".format(ctx.author), icon_url = ctx.author.avatar_url)
         x = await ctx.send(embed = embed)
         self.data[activation_id] = {}
+        self.data[activation_id]["cancel"] = False
         self.data[activation_id]["sms"] = False
         self.data[activation_id]["price"] = price
         self.data[activation_id]["number"] = number
@@ -89,6 +90,8 @@ class Number(commands.Cog, NumberApi):
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
         count = 300
         for index in range(150):
+            cancel = self.data.get(activation_id).get("cancel")
+            if cancel: break
             count -= 2
             await asyncio.sleep(2)
             response = await self.get_sms(activation_id)
@@ -156,6 +159,7 @@ class Number(commands.Cog, NumberApi):
         balance, total_otp = await self.get_balance()
         await ctx.send(ctx.author.mention + ", " + message)
         number = self.data.get(activation_id).get("number")
+        self.data[activation_id]["cancel"] = True
         embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points} points", color = discord.Colour.random())
         embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(974325308251594814).send(embed = embed)
