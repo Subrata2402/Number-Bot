@@ -96,9 +96,6 @@ class Number(commands.Cog, NumberApi):
             await asyncio.sleep(2)
             response = await self.get_sms(activation_id)
             error = response.get("error")
-            if error:
-                embed.set_field_at(2, name = "Message", value = error, inline = False)
-                return await x.edit(embed = embed)
             sms = response.get("sms")
             balance = response.get("balance")
             if not sms:
@@ -111,10 +108,6 @@ class Number(commands.Cog, NumberApi):
                 embed.set_thumbnail(url = self.client.user.avatar_url)
                 return await self.client.get_channel(974325308251594814).send(embed = embed)
         response = await self.cancel_order(activation_id)
-        error = response.get("error")
-        if error:
-            embed.set_field_at(2, name = "Message", value = error, inline = False)
-            return await x.edit(embed = embed)
         points = db.user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points + price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
