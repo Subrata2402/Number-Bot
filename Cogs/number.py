@@ -113,7 +113,8 @@ class Number(commands.Cog, NumberApi):
         points = db.user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points + price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
-        ch_embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\nBalance : ₹{balance}\nPoints : {points+price} points", color = discord.Colour.random())
+        balance, total_otp = await self.get_balance()
+        ch_embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points+price} points", color = discord.Colour.random())
         ch_embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(974325308251594814).send(embed = ch_embed)
         embed.set_field_at(2, name = "Message", value = "Message is not received. Order cancelled!", inline = False)
