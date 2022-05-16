@@ -84,18 +84,29 @@ class Number(commands.Cog, NumberApi):
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : +91{number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(973630743861415986).send(embed = embed)
+        points = db.user.find_one({"user_id": ctx.author.id}).get("points")
+        update = {"points": points - price}
+        db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
         for index in range(300):
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
             response = await self.get_sms(activation_id)
             error = response.get("error")
             if error: return await x.edit(ctx.author.mention + "\n```\n" + error + "\n```", embed = None)
             sms = response.get("sms")
             balance = response.get("balance")
             if not sms:
-                embed.add_field_at(2, name = "Waiting For SMS", value = 300 - (index + 1), inline = False)
+                embed.set_field_at(2, name = "Waiting For SMS", value = 300 - (index + 1), inline = False)
+                await x.edit(embed = embed)
             else:
-                embed.add_field_at(2, name = "SMS", value = sms, inline = False)
-            await x.edit(embed = embed)
+                embed.set_field_at(2, name = "Message", value = sms, inline = False)
+                await x.edit(embed = embed)
+                embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
+                embed.set_thumbnail(url = self.client.user.avatar_url)
+                return await self.client.get_channel(974325308251594814).send(embed = embed)
+        points = db.user.find_one({"user_id": ctx.author.id}).get("points")
+        update = {"points": points + price}
+        db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
+        await ctx.send(ctx.author.mention + ", Order Cancelled! Message is not received.")
     
     @commands.command(aliases = ["getcode"])
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -107,13 +118,6 @@ class Number(commands.Cog, NumberApi):
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
         sms = response.get("sms")
         balance = response.get("balance")
-        check = self.data.get(activation_id).get("sms")
-        if not check and sms:
-            price = self.data.get(activation_id).get("price")
-            points = db.user.find_one({"user_id": ctx.author.id}).get("points")
-            update = {"points": points - price}
-            db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
-            self.data[activation_id]["sms"] = True
         number = self.data.get(activation_id).get("number")
         if sms:
             embed = discord.Embed(title = "__+91" + str(number) + "__", description = sms, color = discord.Colour.random())
