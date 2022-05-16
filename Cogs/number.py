@@ -106,7 +106,7 @@ class Number(commands.Cog, NumberApi):
         points = db.user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points + price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
-        await ctx.send(ctx.author.mention + ", Order Cancelled! Message is not received.")
+        await x.edit(ctx.author.mention + ", Order Cancelled! Message is not received.", embed = None)
     
     @commands.command(aliases = ["getcode"])
     @commands.cooldown(1, 10, commands.BucketType.user)
