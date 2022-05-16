@@ -87,8 +87,8 @@ class Number(commands.Cog, NumberApi):
         points = db.user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points - price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
-        for index in range(300):
-            await asyncio.sleep(1)
+        for index in range(150):
+            await asyncio.sleep(2)
             response = await self.get_sms(activation_id)
             error = response.get("error")
             if error:
@@ -97,7 +97,7 @@ class Number(commands.Cog, NumberApi):
             sms = response.get("sms")
             balance = response.get("balance")
             if not sms:
-                embed.set_field_at(2, name = "Waiting For SMS...", value = 300 - (index + 1), inline = False)
+                embed.set_field_at(2, name = "Waiting For SMS...", value = 300 - (index + 2), inline = False)
                 await x.edit(embed = embed)
             else:
                 embed.set_field_at(2, name = "Message", value = sms, inline = False)
@@ -105,10 +105,15 @@ class Number(commands.Cog, NumberApi):
                 embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Otp Recieved\nBalance : ₹{balance}\nPoints : {points-price} points", color = discord.Colour.random())
                 embed.set_thumbnail(url = self.client.user.avatar_url)
                 return await self.client.get_channel(974325308251594814).send(embed = embed)
+        response = await self.cancel_order(activation_id)
+        error = response.get("error")
+        if error:
+            embed.set_field_at(2, name = "Message", value = error, inline = False)
+            return await x.edit(embed = embed)
         points = db.user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points + price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
-        ch_embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points+price} points", color = discord.Colour.random())
+        ch_embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\nBalance : ₹{balance}\nPoints : {points+price} points", color = discord.Colour.random())
         ch_embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(974325308251594814).send(embed = ch_embed)
         embed.set_field_at(2, name = "Message", value = "Message is not received. Order cancelled!", inline = False)
