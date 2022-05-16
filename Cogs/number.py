@@ -80,10 +80,10 @@ class Number(commands.Cog, NumberApi):
         self.data[activation_id]["sms"] = False
         self.data[activation_id]["price"] = price
         self.data[activation_id]["number"] = number
-        embed = discord.Embed(title = "__Number Buyer Information !__", color = discord.Colour.random())
-        embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : +91{number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
-        embed.set_thumbnail(url = self.client.user.avatar_url)
-        await self.client.get_channel(973630743861415986).send(embed = embed)
+        ch_embed = discord.Embed(title = "__Number Buyer Information !__", color = discord.Colour.random())
+        ch_embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : +91{number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
+        ch_embed.set_thumbnail(url = self.client.user.avatar_url)
+        await self.client.get_channel(973630743861415986).send(embed = ch_embed)
         points = db.user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points - price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
