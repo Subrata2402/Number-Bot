@@ -75,7 +75,7 @@ class Number(commands.Cog, NumberApi):
         embed.add_field(name = "Wating For SMS...", value = "300", inline = False)
         embed.set_thumbnail(url = self.client.user.avatar_url)
         embed.set_footer(text = "Requested by : {}".format(ctx.author), icon_url = ctx.author.avatar_url)
-        await ctx.send(embed = embed)
+        x = await ctx.send(embed = embed)
         self.data[activation_id] = {}
         self.data[activation_id]["sms"] = False
         self.data[activation_id]["price"] = price
@@ -85,7 +85,17 @@ class Number(commands.Cog, NumberApi):
         embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(973630743861415986).send(embed = embed)
         for index in range(300):
-            embed.add_field_at(2, name = "SMS")
+            await asyncio.sleep(1)
+            response = await self.get_sms(activation_id)
+            error = response.get("error")
+            if error: return await x.edit(ctx.author.mention + "\n```\n" + error + "\n```", embed = None)
+            sms = response.get("sms")
+            balance = response.get("balance")
+            if not sms:
+                embed.add_field_at(2, name = "Waiting For SMS", value = 300 - (index + 1), inline = False)
+            else:
+                embed.add_field_at(2, name = "SMS", value = sms, inline = False)
+            await x.edit(embed = embed)
     
     @commands.command(aliases = ["getcode"])
     @commands.cooldown(1, 10, commands.BucketType.user)
