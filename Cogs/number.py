@@ -88,14 +88,13 @@ class Number(commands.Cog, NumberApi):
         update = {"points": points - price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
         for index in range(300):
-            await asyncio.sleep(2)
             response = await self.get_sms(activation_id)
             error = response.get("error")
             if error: return await x.edit(ctx.author.mention + "\n```\n" + error + "\n```", embed = None)
             sms = response.get("sms")
             balance = response.get("balance")
             if not sms:
-                embed.set_field_at(2, name = "Waiting For SMS", value = 300 - (index + 1), inline = False)
+                embed.set_field_at(2, name = "Waiting For SMS...", value = 300 - (index + 1), inline = False)
                 await x.edit(embed = embed)
             else:
                 embed.set_field_at(2, name = "Message", value = sms, inline = False)
