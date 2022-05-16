@@ -1,4 +1,4 @@
-import discord, services
+import discord, services, asyncio
 from discord.ext import commands
 from NumberApi.number_api import NumberApi
 from database import db
@@ -72,6 +72,7 @@ class Number(commands.Cog, NumberApi):
         embed = discord.Embed(title = "__Number for {} !__".format(service.title()), color = discord.Colour.random())
         embed.add_field(name = "Number", value = "+91" + str(number), inline = False)
         embed.add_field(name = "Activation ID", value = activation_id, inline = False)
+        embed.add_field(name = "Wating For SMS...", value = "300", inline = False)
         embed.set_thumbnail(url = self.client.user.avatar_url)
         embed.set_footer(text = "Requested by : {}".format(ctx.author), icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
@@ -83,7 +84,9 @@ class Number(commands.Cog, NumberApi):
         embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : +91{number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(973630743861415986).send(embed = embed)
-        
+        for index in range(300):
+            embed.add_field_at(2, name = "SMS")
+    
     @commands.command(aliases = ["getcode"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def getsms(self, ctx, activation_id: int = None):
