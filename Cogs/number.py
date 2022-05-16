@@ -88,6 +88,7 @@ class Number(commands.Cog, NumberApi):
         update = {"points": points - price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
         for index in range(300):
+            await asyncio.sleep(1)
             response = await self.get_sms(activation_id)
             error = response.get("error")
             if error:
