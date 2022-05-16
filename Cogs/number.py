@@ -90,7 +90,9 @@ class Number(commands.Cog, NumberApi):
         for index in range(300):
             response = await self.get_sms(activation_id)
             error = response.get("error")
-            if error: return await x.edit(ctx.author.mention + "\n```\n" + error + "\n```", embed = None)
+            if error:
+                embed.set_field_at(2, name = "Message", value = error, inline = False)
+                return await x.edit(embed = embed)
             sms = response.get("sms")
             balance = response.get("balance")
             if not sms:
@@ -105,7 +107,11 @@ class Number(commands.Cog, NumberApi):
         points = db.user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points + price}
         db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
-        await x.edit(ctx.author.mention + ", Order Cancelled! Message is not received.", embed = None)
+        ch_embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points+price} points", color = discord.Colour.random())
+        ch_embed.set_thumbnail(url = self.client.user.avatar_url)
+        await self.client.get_channel(974325308251594814).send(embed = ch_embed)
+        embed.set_field_at(2, name = "Message", value = "Message is not received. Order cancelled!", inline = False)
+        await x.edit(embed = embed)
     
     @commands.command(aliases = ["getcode"])
     @commands.cooldown(1, 10, commands.BucketType.user)
