@@ -11,7 +11,7 @@ class NumberApi(object):
         async with aiohttp.ClientSession() as session:
             response = await session.request(method = method, url = self.host_two + function, headers = headers, data = data)
             content = await response.text()
-            return json.loads(content)
+            print(content)
 
     async def get_number(self, service):
         return await self.fetch("GET", "?act=getnumber&service={}&accessCode={}".format(service, self.access_code))
@@ -26,6 +26,7 @@ class NumberApi(object):
         return await self.fetch("GET", "?act=otp&number={}".format(activation_id))
 
     async def get_history(self):
+    	await self.fetch("GET", "?act=history&accessCode={}".format(self.access_code))
         r = requests.get("https://autobuyotp.com/server/history.php?accessCode=" + self.access_code)
         soup = bs4.BeautifulSoup(r.text , "html.parser")
         response = soup.find_all("tr")
@@ -41,4 +42,3 @@ class NumberApi(object):
         balance = response[:s]
         otps = response[s:]
         return balance, otps
-        
