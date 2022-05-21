@@ -26,7 +26,7 @@ class NumberApi(object):
         return await self.fetch("GET", "?act=otp&number={}".format(activation_id))
 
     async def get_history(self):
-    	await self.fetch("GET", "?act=history&accessCode={}".format(self.access_code))
+        await self.fetch("GET", "?act=history&accessCode={}".format(self.access_code))
         r = requests.get("https://autobuyotp.com/server/history.php?accessCode=" + self.access_code)
         soup = bs4.BeautifulSoup(r.text , "html.parser")
         response = soup.find_all("tr")
