@@ -1,13 +1,12 @@
-import discord, services, asyncio
+import discord, services, asyncio, os
 from discord.ext import commands
-from NumberApi.number_api import NumberApi
+from NumberApi.fivesim import FiveSim
 from database import db
-func = ["", "Number", "Time", "Service", "Server", "Status"]
 
-class Number(commands.Cog, NumberApi):
+class Number(commands.Cog, FiveSim):
     
     def __init__(self, client):
-        super().__init__()
+        super().__init__(os.getenv("API_KEY"))
         self.client = client
         self.data = {}
         
