@@ -1,20 +1,5 @@
 import aiohttp
 
-class NumberNotAvailable(Exception):
-    """Raised when a phone number is not provided."""
-
-class NotFound(Exception):
-    """Raised when a phone number is not provided."""
-
-
-class InvalidApiKey(Exception):
-    """Raised when an invalid API key is provided."""
-
-
-class InvalidInput(Exception):
-    """Raised when multiple errors are raised."""
-
-
 class FiveSim(object):
     def __init__(self, api_key: str):
         self.api_key = api_key
