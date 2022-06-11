@@ -10,32 +10,11 @@ class Number(commands.Cog, FiveSim):
         self.client = client
         self.data = {}
         
-    
-    @commands.command()
-    @commands.is_owner()
-    async def hist(self, ctx):
-        history = await self.get_history()
-        description = ""
-        for i, data in enumerate(history):
-            for index, target in enumerate(data):
-                if target:
-                    if index == 4: continue
-                    if index == 5 and target != "REFUNDED": target = "OTP RECIEVED"
-                    description += f"{func[index]} : {target.title()}\n"
-            description += "=======================\n"
-            if i == 19:
-                break
-        embed = discord.Embed(title = "__History of Numbers !__", description = description, color = discord.Colour.random())
-        embed.set_footer(text = f"Requested by : {ctx.author}", icon_url = ctx.author.avatar_url)
-        embed.set_thumbnail(url = self.client.user.avatar_url)
-        await ctx.send(embed = embed)
-        
-    @commands.command()
+    @commands.command(aliases = ["bal"])
     @commands.is_owner()
     async def balance(self, ctx):
-        balance, total_otp = await self.get_balance()
-        embed = discord.Embed(title = total_otp + "\n" + balance + "rs", color = discord.Colour.random())
-        await ctx.send(embed = embed)
+        balance = (await self.get_profile()).get("balance")
+        await ctx.reply("```\nBalance : {}₱\n```".format(balance))
 
     @commands.command(aliases = ["prices"])
     @commands.cooldown(1, 10, commands.BucketType.user)
