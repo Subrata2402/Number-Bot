@@ -1,9 +1,16 @@
 import discord, services, asyncio, os
 from discord.ext import commands
-from NumberApi.fivesim import FiveSim
+from NumberApi.number_api import NumberApi
 from database import db
 
-class Number(commands.Cog, FiveSim):
+from pymongo import MongoClient
+
+data = MongoClient('')
+db = data.get_database("")
+user = db.points
+
+
+class Number(commands.Cog, NumberApi):
     
     def __init__(self, client):
         super().__init__(os.getenv("API_KEY"))
