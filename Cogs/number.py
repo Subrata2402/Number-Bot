@@ -41,7 +41,7 @@ class Number(commands.Cog, NumberApi):
         price = services.service_list.get(service.lower())
         if not price:
             return await ctx.send(ctx.author.mention + f", Invalid service name. Please use `{ctx.prefix}price` to get a list of services and their prices.")
-        self_details = db.user.find_one({"user_id": ctx.author.id})
+        self_details = user.find_one({"user_id": ctx.author.id})
         if not self_details: return await ctx.send(ctx.author.mention + ", You don't have enough points to buy numb.")
         points = self_details.get("points")
         if points < price: return await ctx.send(ctx.author.mention + ", You don't have enough points to buy number.")
@@ -69,9 +69,9 @@ class Number(commands.Cog, NumberApi):
         ch_embed.description = f"• Username : {ctx.author}\n• User ID : {ctx.author.id}\n• Service : {service.title()}\n• Number : +91{number}\n• Activation ID : {activation_id}\n• Remaining Balance : ₹{balance}\n"
         ch_embed.set_thumbnail(url = self.client.user.avatar_url)
         await self.client.get_channel(973630743861415986).send(embed = ch_embed)
-        points = db.user.find_one({"user_id": ctx.author.id}).get("points")
+        points = user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points - price}
-        db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
+        user.update_one({"user_id": ctx.author.id}, {"$set": update})
         count = 300
         for index in range(150):
             cancel = self.data.get(activation_id).get("cancel")
@@ -92,9 +92,9 @@ class Number(commands.Cog, NumberApi):
                 embed.set_thumbnail(url = self.client.user.avatar_url)
                 return await self.client.get_channel(974325308251594814).send(embed = embed)
         response = await self.cancel_order(activation_id)
-        points = db.user.find_one({"user_id": ctx.author.id}).get("points")
+        points = user.find_one({"user_id": ctx.author.id}).get("points")
         update = {"points": points + price}
-        db.user.update_one({"user_id": ctx.author.id}, {"$set": update})
+        user.update_one({"user_id": ctx.author.id}, {"$set": update})
         balance, total_otp = await self.get_balance()
         ch_embed = discord.Embed(title = "__Otp Status !__", description = f"Number : +91{number}\nActivation ID : {activation_id}\nStatus : Cancelled\n{balance}rs\nPoints : {points+price} points", color = discord.Colour.random())
         ch_embed.set_thumbnail(url = self.client.user.avatar_url)
@@ -132,7 +132,7 @@ class Number(commands.Cog, NumberApi):
         error = response.get("error")
         if error: return await ctx.send(ctx.author.mention + "\n```\n" + error + "\n```")
         message = response.get("msg")
-        points = db.user.find_one({"user_id": ctx.author.id}).get("points")
+        points = user.find_one({"user_id": ctx.author.id}).get("points")
         balance, total_otp = await self.get_balance()
         await ctx.send(ctx.author.mention + ", " + message)
         number = self.data.get(activation_id).get("number")
