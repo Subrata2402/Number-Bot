@@ -1,68 +1,44 @@
-import aiohttp
+import aiohttp, asyncio, json, requests, bs4
 
-class FiveSim(object):
-    def __init__(self, api_key: str):
-        self.api_key = api_key
-        self.api_url = "https://5sim.net/v1"
-        
-    async def fetch(self, method = "GET", function = "", params = None, headers = None, data = None):
-        headers = {"Accept": "application/json"}
-        if self.api_key and "guest" not in function: headers["Authorization"] = self.api_key
-        async with aiohttp.ClientSession() as client_session:
-            response = await client_session.request(method = method, url = self.api_url + function, params = None, headers = headers, data = data)
-            if response.status == 200:
-                return await response.json()
-            else:
-                return response.text
-        
-    async def get_profile(self):
-        """Provides profile data: email, balance and rating."""
-        return await self.fetch("GET", "/user/profile")
-        
-    async def order_history(self, category: str, limit: str = None, offset: str = None, order: str = None, reverse: str = None):
-        """Provides orders history by choosen category."""
-        return await self.fetch("GET", "/user/orders?category={}".format(category))
-        
-    async def payment_history(self, limit: str = None, offset: str = None, order: str = None, reverse: str = None):
-        """Provides payments history."""
-        return await self.fetch("GET", "/user/payments")
-        
-    async def product_details(self, country: str = "any", operator: str = "any"):
-        """To receive the name, the price, quantity of all products, available to buy."""
-        return await self.fetch("GET", "/guest/products/{}/{}".format(country, operator))
-        
-    async def get_prices(self):
-        """Return prices of products of countries."""
-        return await self.fetch("GET", "/guest/prices")
+class NumberApi(object):
+    def __init__(self):
+        self.access_code = "AUTOBUYOTP"
+        self.host_one = "https://autobuyotp.com/sms/sms.php"
+        self.host_two = "https://autobuyotp.com/sms/sms2.php"
+        self.host_three = "https://autobuyotp.com/sms/amz.php"
+    
+    async def fetch(self, method = "GET", function = "", headers = None, data = None):
+        async with aiohttp.ClientSession() as session:
+            response = await session.request(method = method, url = self.host_two + function, headers = headers, data = data)
+            content = await response.text()
+            return json.loads(content)
 
-    async def get_prices_by_country(self, country: str):
-        """Returns product prices by country and specific product."""
-        return await self.fetch("GET", "/guest/prices?country={}".format(country))
-    
-    async def get_prices_by_country_and_product(self, country: str, product: str):
-        """Returns product prices by country and specific product."""
-        return await self.fetch("GET", "/guest/prices?country={}&product={}".format(country, product))
-    
-    async def get_prices_by_product(self, product: str):
-        """Returns product prices by country and specific product."""
-        return await self.fetch("GET", "/guest/prices?product={}".format(product))
-    
-    async def buy_activation_number(self, country: str, operator: str, product: str):
-        """Buy a activation number."""
-        return await self.fetch("GET", "/user/buy/activation/{}/{}/{}".format(country, operator, product))
+    async def get_number(self, service):
+        return await self.fetch("GET", "?act=getnumber&service={}&accessCode={}".format(service, self.access_code))
         
-    async def check_order(self, id: str):
-        """Check order history of a number."""
-        return await self.fetch("GET", "/user/check/{}".format(id))
+    async def get_sms(self, activation_id):
+        return await self.fetch("GET", "?act=getotp&id={}&accessCode={}".format(activation_id, self.access_code))
         
-    async def cancel_order(self, id: str):
-        """Cancel a order by order's id."""
-        return await self.fetch("GET", "/user/cancel/{}".format(id))
+    async def cancel_order(self, activation_id):
+        return await self.fetch("GET", "?act=cancel&id={}".format(activation_id))
         
-    async def sms_inbox_list(self, id: str):
-        """Get SMS inbox list by order's id."""
-        return await self.fetch("GET", "/user/sms/inbox/{}".format(id))
+    async def get_message_history(self, activation_id):
+        return await self.fetch("GET", "?act=otp&number={}".format(activation_id))
+
+    async def get_history(self):
+        r = requests.get("https://autobuyotp.com/server/history.php?accessCode=" + self.access_code)
+        soup = bs4.BeautifulSoup(r.text , "html.parser")
+        response = soup.find_all("tr")
+        history = [data.text.split("\n") for data in response]
+        history.remove(history[0])
+        return history
+
+    async def get_balance(self):
+        r = requests.get("https://autobuyotp.com/server/history.php?accessCode=" + self.access_code)
+        soup = bs4.BeautifulSoup(r.text , "html.parser")
+        response = soup.find("font").text
+        s = response.find("Total")
+        balance = response[:s]
+        otps = response[s:]
+        return balance, otps
         
-    async def countries_list(self):
-        """Returns a list of countries with available operators for purchase."""
-        return await self.fetch("GET", "/guest/countries")
