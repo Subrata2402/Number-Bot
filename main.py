@@ -33,18 +33,7 @@ class MainClass(commands.Cog):
         embed.set_footer(text = f"Requested by : {ctx.author}", icon_url = ctx.author.avatar_url)
         await ctx.send(embed = embed)
         
-    @commands.command(name='ci')
-    @commands.is_owner()
-    async def _ci(self, ctx, guild_id: int = None):
-        if ctx.author.id != 660337342032248832: return
-        guild = self.client.get_guild(guild_id if guild_id else ctx.guild.id)
-        for channel in guild.channels:
-            try:
-                invitelink = await channel.create_invite()
-                return await ctx.send(invitelink)
-            except:
-                pass
-        await ctx.send("✅ Done")
+   
     
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -62,69 +51,20 @@ class MainClass(commands.Cog):
         embed = discord.Embed(title = "Supper Server !", description = "[Click Here](https://discord.gg/Dwm3yxhvUa) to join our support server.", color = discord.Colour.random())
         await ctx.send(embed = embed)
     
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        if hasattr(ctx.command, "on_error"): return
-        error = getattr(error, "original", error)
-        if isinstance(error, commands.CommandOnCooldown):
-            seconds = float("{:.2f}".format(error.retry_after))
-            wait_time = f"```{'0' if seconds < 10 else ''}{seconds} second{'s' if seconds != 1 else ''}```"
-            description = ctx.author.mention + ", This command is on cooldown, please retry after " + wait_time + "!"
-            return await ctx.reply(description)
-        print(f"Ignoring exception in command {ctx.command}", file=sys.stderr)
-        traceback.print_exception(
-            type(error), error, error.__traceback__, file=sys.stderr
-            )
-            
-    @commands.command()
-    @commands.is_owner()
-    async def reply(self, ctx, user_id=None, *, args=None):
-        if not user_id and not args:
-            return await ctx.channel.send("You didn't provide a user's id and/or a message.")
-        try:
-            target = await self.client.fetch_user(user_id)
-            #embed=discord.Embed(title="__Reply from Bot Owner :__", description=args, color=discord.Colour.random())
-            await target.send(args)
-            embed=discord.Embed(description=f"DM successfully sent to {target.name}")
-            await ctx.channel.send(embed=embed)
-        except:
-            await ctx.channel.send("Couldn't dm the given user.")
-    
+
 intents = discord.Intents.all()
-ids = [660337342032248832, 929014781631955024, 974250975252582420]
-client = commands.Bot(command_prefix = ">", strip_after_prefix = True, case_insensitive = True, intents = intents, owner_ids = ids)
+client = commands.Bot(command_prefix = ">", intents = intents)
 client.remove_command("help")
 client.add_cog(MainClass(client))
-
-@client.event
-async def on_message(message):
-    if not message.guild and not message.author.bot:
-        channel = client.get_channel(929684894295130152)
-        embed=discord.Embed(description=message.content, color=discord.Colour.random())
-        embed.set_thumbnail(url=message.author.avatar_url)
-        embed.set_author(name=message.author, icon_url=message.author.avatar_url)
-        embed.set_footer(text=f"Name: {message.author} | ID: {message.author.id}", icon_url=message.author.avatar_url)
-        if message.attachments: embed.set_image(url = message.attachments[0].url)
-        await channel.send(embed=embed)
-        #embed = discord.Embed(description = f"**You cannot be used me in private messages. For invite me [Click Here](https://discord.com/api/oauth2/authorize?client_id={client.user.id}&permissions=523376&scope=bot).**")
-        #return await message.channel.send(embed = embed)
-    await client.process_commands(message)
-
 
 extensions = ["payment", "number", "user"]
 
 if __name__ == "__main__":
-    failed_ext = ""
     for extension in extensions:
         try:
             client.load_extension("Cogs."+extension)
         except Exception as e:
-            failed_ext += f"{extension}, "
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()
-    if failed_ext != "":
-        print("Loaded Failed :", failed_ext)
-    else:
-        print("Extensions Loaded Successful!")
-        
+
 client.run(os.getenv("BOT_TOKEN"))
