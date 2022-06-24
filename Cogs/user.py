@@ -1,7 +1,13 @@
 import discord
 from discord.ext import commands
-from database import db
 from typing import Union
+
+from pymongo import MongoClient
+
+data = MongoClient('')
+db = data.get_database("")
+user = db.points
+
 
 class UserDetails(commands.Cog):
     
