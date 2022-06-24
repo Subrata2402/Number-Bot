@@ -1,7 +1,6 @@
 import discord, services, asyncio, os
 from discord.ext import commands
 from NumberApi.number_api import NumberApi
-from database import db
 
 from pymongo import MongoClient
 
